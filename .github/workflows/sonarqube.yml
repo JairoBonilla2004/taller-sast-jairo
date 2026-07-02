@@ -1,0 +1,30 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+      - taller_sas_jsbonilla2
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarqube:
+    name: Analyze with SonarQube
+    runs-on:
+      - self-hosted
+      - docker
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
